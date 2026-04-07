@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { env } from "./config/env";
-import { router } from "./routes";
+import  router  from "./routes";
 
 const app = express();
 
