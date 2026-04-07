@@ -317,6 +317,7 @@ model Customer {
   salesOrders  SalesOrder[]
   salesReturns SalesReturn[]
   creditNotes  CreditNote[]
+  deliveryNotes DeliveryNote[]
 }
 
 model Supplier {
@@ -400,6 +401,12 @@ model Warehouse {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   balances   InventoryBalance[]
+
+  movementLines   InventoryMovementLine[]
+  deliveryNotes   DeliveryNote[]
+  goodsReceipts   GoodsReceipt[]
+  salesReturns    SalesReturn[]
+  supplierReturns SupplierReturn[]
 
   @@unique([companyId, code])
 }
@@ -567,6 +574,7 @@ model SalesOrder {
   company     Company          @relation(fields: [companyId], references: [id])
   customer    Customer         @relation(fields: [customerId], references: [id])
   lines       SalesOrderLine[]
+  deliveryNotes DeliveryNote[]
 
   @@unique([companyId, orderNo])
 }
