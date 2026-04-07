@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: proledger-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: proledger
+      POSTGRES_USER: proledger
+      POSTGRES_PASSWORD: proledger
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: proledger-backend
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://proledger:proledger@postgres:5432/proledger?schema=public
+      JWT_SECRET: change-this-in-production
+      JWT_EXPIRES_IN: 1d
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "4000:4000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: proledger-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:4000
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
