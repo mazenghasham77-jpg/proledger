@@ -1,3 +1,4 @@
+import { Decimal } from "@prisma/client/runtime/library";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { prisma } from "../config/prisma";
 
@@ -37,7 +38,7 @@ export async function createJournalEntry(params: {
   const linesData = [] as Array<{
     debitAccountId: string;
     creditAccountId: string;
-    amount: Prisma.Decimal;
+    amount: Decimal;
     description?: string;
   }>;
 
@@ -46,7 +47,7 @@ export async function createJournalEntry(params: {
     linesData.push({
       debitAccountId: await getAccountIdByCode(db, params.companyId, line.debitAccountCode),
       creditAccountId: await getAccountIdByCode(db, params.companyId, line.creditAccountCode),
-      amount: new Prisma.Decimal(line.amount),
+      amount: new Decimal(line.amount),
       description: line.description,
     });
   }
