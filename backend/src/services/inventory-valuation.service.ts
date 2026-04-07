@@ -1,3 +1,5 @@
+import { Decimal } from "@prisma/client/runtime/library";
+
 import { Prisma } from "@prisma/client";
 
 export async function getOrCreateBalance(tx: Prisma.TransactionClient, inventoryItemId: string, warehouseId: string) {
@@ -7,8 +9,8 @@ export async function getOrCreateBalance(tx: Prisma.TransactionClient, inventory
     create: {
       inventoryItemId,
       warehouseId,
-      quantityOnHand: new Prisma.Decimal(0),
-      inventoryValue: new Prisma.Decimal(0),
+      quantityOnHand: new Decimal(...)
+      inventoryValue: new Decimal(...)
     },
   });
 }
@@ -37,16 +39,16 @@ export async function receiveInventory(params: {
   await tx.inventoryBalance.update({
     where: { id: balance.id },
     data: {
-      quantityOnHand: new Prisma.Decimal(newQty),
-      inventoryValue: new Prisma.Decimal(newValue),
+      quantityOnHand: new Decimal(...)
+      inventoryValue: new Decimal(...)
     },
   });
 
   await tx.inventoryItem.update({
     where: { id: item.id },
     data: {
-      averageCost: new Prisma.Decimal(newAverageCost),
-      unitCost: new Prisma.Decimal(unitCost),
+      averageCost: new Decimal(...)
+      unitCost: new Decimal(...)
     },
   });
 
@@ -84,8 +86,8 @@ export async function issueInventory(params: {
   await tx.inventoryBalance.update({
     where: { id: balance.id },
     data: {
-      quantityOnHand: new Prisma.Decimal(newQty),
-      inventoryValue: new Prisma.Decimal(newValue),
+      quantityOnHand: new Decimal(...)
+      inventoryValue: new Decimal(...)
     },
   });
 
