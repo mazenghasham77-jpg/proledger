@@ -50,7 +50,7 @@ export async function createSalesReturn(req: AuthRequest, res: Response) {
     const body = salesReturnSchema.parse(req.body);
     const companyId = req.user!.companyId;
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       const count = await tx.salesReturn.count({ where: { companyId } });
       const returnNo = `SR-${String(count + 1).padStart(5, "0")}`;
       const warehouse = await tx.warehouse.findUniqueOrThrow({ where: { companyId_code: { companyId, code: body.warehouseCode } } });
@@ -133,7 +133,7 @@ export async function createSupplierReturn(req: AuthRequest, res: Response) {
     const body = supplierReturnSchema.parse(req.body);
     const companyId = req.user!.companyId;
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       const count = await tx.supplierReturn.count({ where: { companyId } });
       const returnNo = `VR-${String(count + 1).padStart(5, "0")}`;
       const warehouse = await tx.warehouse.findUniqueOrThrow({ where: { companyId_code: { companyId, code: body.warehouseCode } } });
@@ -215,7 +215,7 @@ export async function createCreditNote(req: AuthRequest, res: Response) {
     const body = creditNoteSchema.parse(req.body);
     const companyId = req.user!.companyId;
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       const count = await tx.creditNote.count({ where: { companyId } });
       const creditNoteNo = `CN-${String(count + 1).padStart(5, "0")}`;
       const subtotal = body.lines.reduce((sum, l) => sum + l.quantity * l.unitPrice, 0);
