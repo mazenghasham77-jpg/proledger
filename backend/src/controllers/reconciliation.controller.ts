@@ -52,7 +52,7 @@ export async function importBankTransactions(req: AuthRequest, res: Response) {
             valueDate: t.valueDate ? new Date(t.valueDate) : undefined,
             description: t.description,
             referenceNo: t.referenceNo,
-            amount: new Prisma.Decimal(t.amount),
+            amount: new Decimal(t.amount),
             status: "IMPORTED",
           },
         });
