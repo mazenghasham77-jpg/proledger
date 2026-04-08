@@ -26,8 +26,12 @@ export async function createJournalEntryHandler(req: AuthRequest, res: Response)
       memo: body.memo,
       sourceType: body.sourceType,
       sourceId: body.sourceId,
-      lines: body.lines,
-    });
+      lines: body.lines.map((line: any) => ({
+  debitAccountCode: String(line.debitAccountCode),
+  creditAccountCode: String(line.creditAccountCode),
+  amount: Number(line.amount),
+  description: line.description,
+})),
     return res.status(201).json(entry);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to create journal entry";
