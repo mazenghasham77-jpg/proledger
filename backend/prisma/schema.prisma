@@ -154,6 +154,7 @@ model User {
   updatedAt      DateTime @updatedAt
   auditLogs      AuditLog[]
   journalEntries JournalEntry[]
+  inventoryMovements InventoryMovement[]
   approvals      Approval[] @relation("ApprovalActor")
 }
 
@@ -639,6 +640,7 @@ model DeliveryNote {
   company      Company        @relation(fields: [companyId], references: [id])
   customer     Customer       @relation(fields: [customerId], references: [id])
   salesOrder   SalesOrder?    @relation(fields: [salesOrderId], references: [id])
+  warehouse    Warehouse      @relation(fields: [warehouseId], references: [id])
   lines        DeliveryNoteLine[]
 
   @@unique([companyId, deliveryNo])
@@ -669,6 +671,7 @@ model GoodsReceipt {
   company         Company        @relation(fields: [companyId], references: [id])
   supplier        Supplier       @relation(fields: [supplierId], references: [id])
   purchaseOrder   PurchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
+  warehouse      Warehouse      @relation(fields: [warehouseId], references: [id])
   lines           GoodsReceiptLine[]
 
   @@unique([companyId, receiptNo])
