@@ -701,15 +701,23 @@ model SalesReturn {
   @@unique([companyId, returnNo])
 }
 
-model SalesReturnLine {
-  id            String      @id @default(cuid())
-  salesReturnId String
-  productId     String?
-  description   String
-  quantity      Decimal     @db.Decimal(18, 3)
-  unitPrice     Decimal?    @db.Decimal(18, 2)
-  salesReturn   SalesReturn @relation(fields: [salesReturnId], references: [id])
-  product       Product?    @relation(fields: [productId], references: [id])
+model SalesReturn {
+  id           String       @id @default(cuid())
+  companyId    String
+  customerId   String
+  returnNo     String
+  returnDate   DateTime
+  warehouseId  String
+  status       ReturnStatus @default(DRAFT)
+  notes        String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  company      Company      @relation(fields: [companyId], references: [id])
+  customer     Customer     @relation(fields: [customerId], references: [id])
+  warehouse    Warehouse    @relation(fields: [warehouseId], references: [id])
+  lines        SalesReturnLine[]
+
+  @@unique([companyId, returnNo])
 }
 
 model SupplierReturn {
@@ -725,6 +733,7 @@ model SupplierReturn {
   updatedAt   DateTime     @updatedAt
   company     Company      @relation(fields: [companyId], references: [id])
   supplier    Supplier     @relation(fields: [supplierId], references: [id])
+  warehouse    Warehouse    @relation(fields: [warehouseId], references: [id])
   lines       SupplierReturnLine[]
 
   @@unique([companyId, returnNo])
