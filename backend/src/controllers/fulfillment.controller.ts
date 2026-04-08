@@ -37,7 +37,7 @@ export async function createDeliveryNote(req: AuthRequest, res: Response) {
     const body = deliverySchema.parse(req.body);
     const companyId = req.user!.companyId;
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       const count = await tx.deliveryNote.count({ where: { companyId } });
       const deliveryNo = `DN-${String(count + 1).padStart(5, "0")}`;
       const warehouse = await tx.warehouse.findUniqueOrThrow({ where: { companyId_code: { companyId, code: body.warehouseCode } } });
@@ -119,7 +119,7 @@ export async function createGoodsReceipt(req: AuthRequest, res: Response) {
     const body = receiptSchema.parse(req.body);
     const companyId = req.user!.companyId;
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       const count = await tx.goodsReceipt.count({ where: { companyId } });
       const receiptNo = `GRN-${String(count + 1).padStart(5, "0")}`;
       const warehouse = await tx.warehouse.findUniqueOrThrow({ where: { companyId_code: { companyId, code: body.warehouseCode } } });
