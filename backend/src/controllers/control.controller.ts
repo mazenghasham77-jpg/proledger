@@ -1,3 +1,5 @@
+const firstString = (value: string | string[] | undefined) =>
+  Array.isArray(value) ? value[0] : value;
 import { Response } from "express";
 import { z } from "zod";
 import { prisma } from "../config/prisma";
