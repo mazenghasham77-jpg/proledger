@@ -733,7 +733,7 @@ model SupplierReturn {
   updatedAt   DateTime     @updatedAt
   company     Company      @relation(fields: [companyId], references: [id])
   supplier    Supplier     @relation(fields: [supplierId], references: [id])
-  warehouse    Warehouse    @relation(fields: [warehouseId], references: [id])
+  warehouse   Warehouse    @relation(fields: [warehouseId], references: [id])
   lines       SupplierReturnLine[]
 
   @@unique([companyId, returnNo])
