@@ -39,7 +39,7 @@ export async function createPayment(req: AuthRequest, res: Response) {
 
         await tx.invoice.update({
           where: { id: invoice.id },
-          data: { amountPaid: new Prisma.Decimal(updatedPaid), status: updatedStatus },
+          data: { amountPaid: new Decimal(updatedPaid), status: updatedStatus },
         });
 
         direction = "INCOMING";
@@ -57,7 +57,7 @@ export async function createPayment(req: AuthRequest, res: Response) {
 
         await tx.bill.update({
           where: { id: bill.id },
-          data: { amountPaid: new Prisma.Decimal(updatedPaid), status: updatedStatus },
+          data: { amountPaid: new Decimal(updatedPaid), status: updatedStatus },
         });
 
         direction = "OUTGOING";
@@ -74,7 +74,7 @@ export async function createPayment(req: AuthRequest, res: Response) {
           companyId,
           paymentNo,
           paymentDate: new Date(body.paymentDate),
-          amount: new Prisma.Decimal(body.amount),
+          amount: new Decimal(body.amount),
           bankAccountCode: body.bankAccountCode,
           direction,
           invoiceId: body.invoiceId,
