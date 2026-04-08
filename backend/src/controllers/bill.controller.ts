@@ -29,7 +29,7 @@ export async function createBill(req: AuthRequest, res: Response) {
     const body = createSchema.parse(req.body);
     const companyId = req.user!.companyId;
 
-    const bill = await prisma.$transaction(async (tx) => {
+    const bill = await prisma.$transaction(async (tx: any) => {
       const billCount = await tx.bill.count({ where: { companyId } });
       const billNo = `BILL-${String(billCount + 1).padStart(5, "0")}`;
       const subtotal = body.lines.reduce((sum, line) => sum + line.quantity * line.unitPrice, 0);
