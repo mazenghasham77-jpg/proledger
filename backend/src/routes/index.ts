@@ -25,7 +25,6 @@ router.use(requireAuth);
 router.get("/company/me", getMyCompany);
 router.get("/accounts", listAccounts);
 
-router.get("/journal-entries", listJournalEntries);
 router.post("/journal-entries", createJournalEntryHandler);
 
 router.get("/invoices", listInvoices);
