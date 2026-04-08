@@ -41,7 +41,7 @@ export async function listBankTransactions(req: AuthRequest, res: Response) {
 export async function importBankTransactions(req: AuthRequest, res: Response) {
   try {
     const body = importSchema.parse(req.body);
-    const created = await prisma.$transaction(async (tx) => {
+    const created = await prisma.$transaction(async (tx: any) => {
       const rows = [];
       for (const t of body.transactions) {
         const row = await tx.bankTransaction.create({
