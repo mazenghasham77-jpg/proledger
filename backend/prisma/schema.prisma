@@ -169,6 +169,7 @@ model Company {
   users             User[]
   accounts          Account[]
   inventoryItems    InventoryItem[]
+  inventoryMovements InventoryMovement[]
   warehouses        Warehouse[]
   customers         Customer[]
   suppliers         Supplier[]
@@ -605,6 +606,7 @@ model PurchaseOrder {
   company         Company             @relation(fields: [companyId], references: [id])
   supplier        Supplier            @relation(fields: [supplierId], references: [id])
   lines           PurchaseOrderLine[]
+  goodsReceipts GoodsReceipt[]
 
   @@unique([companyId, orderNo])
 }
