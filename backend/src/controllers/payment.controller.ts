@@ -25,7 +25,7 @@ export async function createPayment(req: AuthRequest, res: Response) {
     }
 
     const companyId = req.user!.companyId;
-    const payment = await prisma.$transaction(async (tx) => {
+    const payment = await prisma.$transaction(async (tx: any) => {
       const paymentCount = await tx.payment.count({ where: { companyId } });
       const paymentNo = `PAY-${String(paymentCount + 1).padStart(5, "0")}`;
 
