@@ -28,7 +28,7 @@ export async function createInvoice(req: AuthRequest, res: Response) {
     const body = createSchema.parse(req.body);
     const companyId = req.user!.companyId;
 
-    const invoice = await prisma.$transaction(async (tx) => {
+    const invoice = await prisma.$transaction(async (tx: any) => {
       const invoiceCount = await tx.invoice.count({ where: { companyId } });
       const invoiceNo = `INV-${String(invoiceCount + 1).padStart(5, "0")}`;
       const subtotal = body.lines.reduce((sum, line) => sum + line.quantity * line.unitPrice, 0);
