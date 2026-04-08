@@ -686,8 +686,16 @@ model GoodsReceiptLine {
 }
 
 
-model SalesReturn {
-  id           String       @id @default(cuid())
+model SalesReturnLine {
+  id            String      @id @default(cuid())
+  salesReturnId String
+  productId     String?
+  description   String
+  quantity      Decimal     @db.Decimal(18, 3)
+  unitPrice     Decimal?    @db.Decimal(18, 2)
+  salesReturn   SalesReturn @relation(fields: [salesReturnId], references: [id])
+  product       Product?    @relation(fields: [productId], references: [id])
+}
   companyId    String
   customerId   String
   returnNo     String
