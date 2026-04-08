@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { login } from "../controllers/auth.controller";
+import { loginHandler } from "../controllers/auth.controller";
 import { getMyCompany } from "../controllers/company.controller";
 import { listAccounts } from "../controllers/account.controller";
-import { authenticate } from "../middleware/auth";
+import { requireAuth } from "../middleware/auth";
 import { createJournalEntryHandler } from "../controllers/journal.controller";
 import { createInvoice, listInvoices } from "../controllers/invoice.controller";
 import { createBill, listBills } from "../controllers/bill.controller";
@@ -19,8 +19,8 @@ import { emailInvoice, generateInvoicePdf } from "../controllers/document.contro
 
 const router = Router();
 
-router.post("/auth/login", login);
-router.use(authenticate);
+router.post("/auth/login", loginHandler);
+router.use(requireAuth);
 
 router.get("/company/me", getMyCompany);
 router.get("/accounts", listAccounts);
