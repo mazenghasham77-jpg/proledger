@@ -35,8 +35,8 @@ export async function createInventoryMovement(req: AuthRequest, res: Response) {
             create: body.lines.map((line) => ({
               inventoryItemId: line.inventoryItemId,
               warehouseId: line.warehouseId ?? body.toWarehouseId ?? body.fromWarehouseId!,
-              quantity: new Prisma.Decimal(line.quantity),
-              unitCost: line.unitCost != null ? new Prisma.Decimal(line.unitCost) : undefined,
+              quantity: new Decimal(line.quantity),
+              unitCost: line.unitCost != null ? new Decimal(line.unitCost) : undefined,
             })),
           },
         },
@@ -66,7 +66,7 @@ export async function createInventoryMovement(req: AuthRequest, res: Response) {
           const balance = await getOrCreateBalance(tx, line.inventoryItemId, line.warehouseId);
           await tx.inventoryBalance.update({
             where: { id: balance.id },
-            data: { quantityOnHand: new Prisma.Decimal(line.quantity) },
+            data: { quantityOnHand: new Decimal(line.quantity) },
           });
         } else if (body.movementType === "TRANSFER") {
           if (!body.fromWarehouseId || !body.toWarehouseId) {
