@@ -56,7 +56,7 @@ export async function createDeliveryNote(req: AuthRequest, res: Response) {
             create: body.lines.map((line) => ({
               productId: line.productId,
               description: line.description,
-              quantity: new Prisma.Decimal(line.quantity),
+              quantity: new Decimal(line.quantity),
             })),
           },
         },
@@ -87,8 +87,8 @@ export async function createDeliveryNote(req: AuthRequest, res: Response) {
               create: [{
                 inventoryItemId: inventoryItem.id,
                 warehouseId: warehouse.id,
-                quantity: new Prisma.Decimal(line.quantity),
-                unitCost: new Prisma.Decimal(issued.unitCost),
+                quantity: new Decimal(line.quantity),
+                unitCost: new Decimal(issued.unitCost),
               }],
             },
           },
@@ -138,8 +138,8 @@ export async function createGoodsReceipt(req: AuthRequest, res: Response) {
             create: body.lines.map((line) => ({
               productId: line.productId,
               description: line.description,
-              quantity: new Prisma.Decimal(line.quantity),
-              unitCost: new Prisma.Decimal(line.unitCost),
+              quantity: new Decimal(line.quantity),
+              unitCost: new Decimal(line.unitCost),
             })),
           },
         },
@@ -172,8 +172,8 @@ export async function createGoodsReceipt(req: AuthRequest, res: Response) {
               create: [{
                 inventoryItemId: inventoryItem.id,
                 warehouseId: warehouse.id,
-                quantity: new Prisma.Decimal(line.quantity),
-                unitCost: new Prisma.Decimal(line.unitCost),
+                quantity: new Decimal(line.quantity),
+                unitCost: new Decimal(line.unitCost),
               }],
             },
           },
