@@ -33,7 +33,7 @@ export async function agedReceivablesReport(req: AuthRequest, res: Response) {
     where: { companyId: req.user!.companyId, status: { in: ["SENT", "PARTIALLY_PAID"] } },
     include: { customer: true },
   });
-  const rows = invoices.map((invoice) => {
+  const rows = invoices.map((invoice: any) => {
     const outstanding = Number(invoice.totalAmount) - Number(invoice.amountPaid);
     const daysPastDue = Math.max(0, Math.floor((now.getTime() - invoice.dueDate.getTime()) / 86400000));
     return { invoiceNo: invoice.invoiceNo, customer: invoice.customer.name, dueDate: invoice.dueDate, outstanding, daysPastDue };
@@ -47,7 +47,7 @@ export async function agedPayablesReport(req: AuthRequest, res: Response) {
     where: { companyId: req.user!.companyId, status: { in: ["APPROVED", "PARTIALLY_PAID"] } },
     include: { supplier: true },
   });
-  const rows = bills.map((bill) => {
+  const rows = bills.map((bill: any) => {
     const outstanding = Number(bill.totalAmount) - Number(bill.amountPaid);
     const daysPastDue = Math.max(0, Math.floor((now.getTime() - bill.dueDate.getTime()) / 86400000));
     return { billNo: bill.billNo, supplier: bill.supplier.name, dueDate: bill.dueDate, outstanding, daysPastDue };
@@ -64,7 +64,7 @@ export async function taxSummaryReport(req: AuthRequest, res: Response) {
 
 export async function inventoryValuationSummary(req: AuthRequest, res: Response) {
   const rows = await inventoryValuationReport(prisma, req.user!.companyId);
-  const totalValue = rows.reduce((sum, row) => sum + row.inventoryValue, 0);
-  const totalQuantity = rows.reduce((sum, row) => sum + row.quantityOnHand, 0);
+  const totalValue = rows.reduce((sum: any, row: any) => sum + row.inventoryValue, 0);
+  const totalQuantity = rows.reduce((sum: any, row: any) => sum + row.quantityOnHand, 0);
   return res.json({ totalValue, totalQuantity, rows });
 }
