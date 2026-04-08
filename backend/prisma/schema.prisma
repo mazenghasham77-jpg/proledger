@@ -685,23 +685,6 @@ model GoodsReceiptLine {
   product        Product?     @relation(fields: [productId], references: [id])
 }
 
-model SalesReturn {
-  id           String       @id @default(cuid())
-  companyId    String
-  customerId   String
-  returnNo     String
-  returnDate   DateTime
-  warehouseId  String
-  status       ReturnStatus @default(DRAFT)
-  notes        String?
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  company      Company      @relation(fields: [companyId], references: [id])
-  customer     Customer     @relation(fields: [customerId], references: [id])
-  lines        SalesReturnLine[]
-
-  @@unique([companyId, returnNo])
-}
 
 model SalesReturn {
   id           String       @id @default(cuid())
