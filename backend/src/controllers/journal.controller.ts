@@ -20,18 +20,19 @@ export async function createJournalEntryHandler(req: AuthRequest, res: Response)
   try {
     const body = schema.parse(req.body);
     const entry = await createJournalEntry({
-      companyId: req.user!.companyId,
-      createdById: req.user!.id,
-      entryDate: body.entryDate ? new Date(body.entryDate) : new Date(),
-      memo: body.memo,
-      sourceType: body.sourceType,
-      sourceId: body.sourceId,
-      lines: body.lines.map((line: any) => ({
-  debitAccountCode: String(line.debitAccountCode),
-  creditAccountCode: String(line.creditAccountCode),
-  amount: Number(line.amount),
-  description: line.description,
-})),
+  companyId: req.user!.companyId,
+  createdById: req.user!.id,
+  entryDate: body.entryDate ? new Date(body.entryDate) : new Date(),
+  memo: body.memo,
+  sourceType: body.sourceType,
+  sourceId: body.sourceId,
+  lines: body.lines.map((line: any) => ({
+    debitAccountCode: String(line.debitAccountCode),
+    creditAccountCode: String(line.creditAccountCode),
+    amount: Number(line.amount),
+    description: line.description,
+  })),
+});
     return res.status(201).json(entry);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to create journal entry";
