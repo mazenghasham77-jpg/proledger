@@ -19,7 +19,7 @@ export async function generateInvoicePdf(req: AuthRequest, res: Response) {
     invoiceDate: invoice.invoiceDate.toISOString().slice(0, 10),
     dueDate: invoice.dueDate.toISOString().slice(0, 10),
     totalAmount: String(invoice.totalAmount),
-    lines: invoice.lines.map(l: any) => ({
+    lines: invoice.lines.map((l: any) => ({
       description: l.description,
       quantity: String(l.quantity),
       unitPrice: String(l.unitPrice),
@@ -35,7 +35,7 @@ export async function generateInvoicePdf(req: AuthRequest, res: Response) {
   });
 }
 
-export async function emailInvoice(req: AuthRequest, res: Response) {
+ export async function emailInvoice(req: AuthRequest, res: Response) {
   const invoiceId = req.params.invoiceId;
 
   const invoice = await prisma.invoice.findFirstOrThrow({
