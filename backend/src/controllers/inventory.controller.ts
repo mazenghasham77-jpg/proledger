@@ -23,7 +23,7 @@ export async function createInventoryMovement(req: AuthRequest, res: Response) {
   try {
     const body = movementSchema.parse(req.body);
 
-    const movement = await prisma.$transaction(async (tx) => {
+    const movement = await prisma.$transaction(async (tx: any) => {
       const created = await tx.inventoryMovement.create({
         data: {
           companyId: req.user!.companyId,
@@ -117,6 +117,6 @@ export async function listInventoryMovements(req: AuthRequest, res: Response) {
 
 export async function getInventoryValuation(req: AuthRequest, res: Response) {
   const rows = await inventoryValuationReport(prisma, req.user!.companyId);
-  const totalValue = rows.reduce((sum, row) => sum + row.inventoryValue, 0);
+  const totalValue = rows.reduce((sum: any, row: any) => sum + row.inventoryValue, 0);
   return res.json({ totalValue, rows });
 }
