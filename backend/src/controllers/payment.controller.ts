@@ -1,3 +1,4 @@
+import { Decimal } from "@prisma/client/runtime/library";
 import { Prisma } from "@prisma/client";
 import { Response } from "express";
 import { z } from "zod";
