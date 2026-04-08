@@ -46,9 +46,9 @@ export async function createSalesOrder(req: AuthRequest, res: Response) {
         lines: {
           create: body.lines.map((line) => ({
             description: line.description,
-            quantity: new Prisma.Decimal(line.quantity),
-            unitPrice: new Prisma.Decimal(line.unitPrice),
-            lineAmount: new Prisma.Decimal(line.quantity * line.unitPrice),
+            quantity: new Decimal(line.quantity),
+            unitPrice: new Decimal(line.unitPrice),
+            lineAmount: new Decimal(line.quantity * line.unitPrice),
             productId: line.productId,
           })),
         },
@@ -90,9 +90,9 @@ export async function createPurchaseOrder(req: AuthRequest, res: Response) {
         lines: {
           create: body.lines.map((line) => ({
             description: line.description,
-            quantity: new Prisma.Decimal(line.quantity),
-            unitPrice: new Prisma.Decimal(line.unitPrice),
-            lineAmount: new Prisma.Decimal(line.quantity * line.unitPrice),
+            quantity: new Decimal(line.quantity),
+            unitPrice: new Decimal(line.unitPrice),
+            lineAmount: new Decimal(line.quantity * line.unitPrice),
             productId: line.productId,
           })),
         },
