@@ -1,6 +1,5 @@
 import { db } from "../config/prisma";
 import { Response } from "express";
-import { prisma } from "../config/prisma";
 import { AuthRequest } from "../middleware/auth";
 import { buildInvoicePdfHtml } from "../services/pdf.service";
 import { sendMail } from "../services/email.service";
@@ -8,14 +7,18 @@ import { sendMail } from "../services/email.service";
 export async function generateInvoicePdf(req: AuthRequest, res: Response) {
   const invoiceId = String(req.params.invoiceId || "");
 
-const invoice = await db.invoice.findUnique({
-  where: { id: invoiceId },
-  include: {
-    company: true,
-    customer: true,
-    lines: true,
-  },
-});
+  const invoice = await db.invoice.findUnique({
+    where: { id: invoiceId },
+    include: {
+      company: true,
+      customer: true,
+      lines: true,
+    },
+  });
+
+  if (!invoice) {
+    return res.status(404).json({ message: "Invoice not found" });
+  }
 
   const html = buildInvoicePdfHtml({
     invoiceNo: invoice.invoiceNo,
@@ -40,17 +43,21 @@ const invoice = await db.invoice.findUnique({
   });
 }
 
- export async function emailInvoice(req: AuthRequest, res: Response) {
-  const invoiceId = req.params.invoiceId;
+export async function emailInvoice(req: AuthRequest, res: Response) {
+  const invoiceId = String(req.params.invoiceId || "");
 
   const invoice = await db.invoice.findUnique({
-  where: { id: invoiceId },
-  include: {
-    company: true,
-    customer: true,
-    lines: true,
-  },
-});
+    where: { id: invoiceId },
+    include: {
+      company: true,
+      customer: true,
+      lines: true,
+    },
+  });
+
+  if (!invoice) {
+    return res.status(404).json({ message: "Invoice not found" });
+  }
 
   if (!invoice.customer.email) {
     return res.status(400).json({ message: "Customer email is missing" });
@@ -63,7 +70,7 @@ const invoice = await db.invoice.findUnique({
     invoiceDate: invoice.invoiceDate.toISOString().slice(0, 10),
     dueDate: invoice.dueDate.toISOString().slice(0, 10),
     totalAmount: String(invoice.totalAmount),
-    lines: invoice.lines.map((l) => ({
+    lines: invoice.lines.map((l: any) => ({
       description: l.description,
       quantity: String(l.quantity),
       unitPrice: String(l.unitPrice),
