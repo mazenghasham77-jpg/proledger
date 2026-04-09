@@ -87,7 +87,7 @@ export async function matchBankTransaction(req: AuthRequest, res: Response) {
 }
 
 export async function clearBankTransaction(req: AuthRequest, res: Response) {
-  const bankTransactionId = req.params.bankTransactionId;
+  const bankTransactionId = String(req.params.bankTransactionId || "");
   const row = await prisma.bankTransaction.update({
     where: { id: bankTransactionId },
     data: { status: "CLEARED" },
