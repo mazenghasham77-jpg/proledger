@@ -1,4 +1,4 @@
-import { db } from "../config/prisma";
+import { prisma } from "../config/prisma";
 import { Response } from "express";
 import { AuthRequest } from "../middleware/auth";
 import { buildInvoicePdfHtml } from "../services/pdf.service";
@@ -7,7 +7,7 @@ import { sendMail } from "../services/email.service";
 export async function generateInvoicePdf(req: AuthRequest, res: Response) {
   const invoiceId = String(req.params.invoiceId || "");
 
-  const invoice = await db.invoice.findUnique({
+  const invoice = await prisma.invoice.findUnique({
     where: { id: invoiceId },
     include: {
       company: true,
@@ -46,7 +46,7 @@ export async function generateInvoicePdf(req: AuthRequest, res: Response) {
 export async function emailInvoice(req: AuthRequest, res: Response) {
   const invoiceId = String(req.params.invoiceId || "");
 
-  const invoice = await db.invoice.findUnique({
+  const invoice = await prisma.invoice.findUnique({
     where: { id: invoiceId },
     include: {
       company: true,
