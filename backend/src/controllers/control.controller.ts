@@ -1,3 +1,5 @@
+const one = (value: string | string[] | undefined) =>
+  Array.isArray(value) ? value[0] : value;
 const firstString = (value: string | string[] | undefined) =>
   Array.isArray(value) ? value[0] : value;
 import { Response } from "express";
@@ -121,7 +123,7 @@ export async function listPeriods(req: AuthRequest, res: Response) {
 }
 
 export async function closePeriod(req: AuthRequest, res: Response) {
-  const periodId = req.params.periodId;
+  const periodId = String(req.params.periodId || "");
   const row = await prisma.accountingPeriod.update({
     where: { id: periodId },
     data: { isClosed: true, closedAt: new Date(), closedById: req.user!.id },
@@ -130,7 +132,7 @@ export async function closePeriod(req: AuthRequest, res: Response) {
 }
 
 export async function reopenPeriod(req: AuthRequest, res: Response) {
-  const periodId = req.params.periodId;
+  const periodId = String(req.params.periodId || "");
   const row = await prisma.accountingPeriod.update({
     where: { id: periodId },
     data: { isClosed: false, closedAt: null, closedById: null },
