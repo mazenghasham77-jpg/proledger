@@ -38,10 +38,14 @@ export async function generateInvoicePdf(req: AuthRequest, res: Response) {
  export async function emailInvoice(req: AuthRequest, res: Response) {
   const invoiceId = req.params.invoiceId;
 
-  const invoice = await prisma.invoice.findFirstOrThrow({
-    where: { id: invoiceId, companyId: req.user!.companyId },
-    include: { customer: true, lines: true, company: true },
-  });
+  const invoice = await db.invoice.findUnique({
+  where: { id: invoiceId },
+  include: {
+    company: true,
+    customer: true,
+    lines: true,
+  },
+});
 
   if (!invoice.customer.email) {
     return res.status(400).json({ message: "Customer email is missing" });
