@@ -45,12 +45,12 @@ export async function receiveInventory(params: {
   });
 
   await tx.inventoryItem.update({
-    where: { id: item.id },
-    data: {
-      quantityOnHand: new Decimal(newQty),
-      inventoryValue: new Decimal(newValue),
-    },
-  });
+  where: { id: item.id },
+  data: {
+    averageCost: new Decimal(newAverageCost),
+    unitCost: new Decimal(unitCost),
+  },
+});
 
   return {
     previousQuantity: oldQty,
