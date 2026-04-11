@@ -17,9 +17,13 @@ import { clearBankTransaction, importBankTransactions, listBankAccounts, listBan
 import { createAttachment, listAttachments } from "../controllers/attachment.controller";
 import { emailInvoice, generateInvoicePdf } from "../controllers/document.controller";
 
+import { loginHandler, registerHandler } from "../controllers/auth.controller";
+
 const router = Router();
 
 router.post("/auth/login", loginHandler);
+router.post("/auth/register", registerHandler);
+
 router.use(requireAuth);
 
 router.get("/company/me", getMyCompany);
